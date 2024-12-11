@@ -1,0 +1,63 @@
+import java.util.Scanner;
+import java.util.Random;
+
+public class NumberGuessingGame {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        Random random = new Random();
+        
+        System.out.println("Welcome to the Number Guessing Game!");
+        System.out.println("Choose a difficulty level:");
+        System.out.println("1. Easy (1-10)");
+        System.out.println("2. Medium (1-50)");
+        System.out.println("3. Hard (1-100)");
+        
+        int range = 10; // Default range
+        System.out.print("Enter your choice (1/2/3): ");
+        int choice = scanner.nextInt();
+        switch (choice) {
+            case 1: range = 10; break;
+            case 2: range = 50; break;
+            case 3: range = 100; break;
+            default:
+                System.out.println("Invalid choice! Defaulting to Easy.");
+        }
+        
+        int target = random.nextInt(range) + 1; // Random number between 1 and range
+        int attempts = 0;
+        int maxAttempts = 7; // Maximum attempts allowed
+        boolean guessed = false;
+
+        System.out.println("I have selected a number between 1 and " + range + ". Can you guess it?");
+        
+        while (attempts < maxAttempts && !guessed) {
+            System.out.print("Enter your guess: ");
+            try {
+                int guess = scanner.nextInt();
+                if (guess < 1 || guess > range) {
+                    System.out.println("Please guess a number within the range 1 to " + range + ".");
+                    continue;
+                }
+
+                attempts++;
+                if (guess == target) {
+                    guessed = true;
+                    System.out.println("Congratulations! You guessed the number in " + attempts + " attempts.");
+                } else if (guess < target) {
+                    System.out.println("Too Low!");
+                } else {
+                    System.out.println("Too High!");
+                }
+            } catch (Exception e) {
+                System.out.println("Invalid input! Please enter a valid number.");
+                scanner.next(); // Clear the invalid input
+            }
+        }
+        
+        if (!guessed) {
+            System.out.println("Game Over! The number was: " + target);
+        }
+        System.out.println("Thank you for playing!");
+        scanner.close();
+    }
+}
